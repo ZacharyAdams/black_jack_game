@@ -30,8 +30,12 @@ require_relative 'card'
 
 
 #grab a card from the deck and give it to the player and pull it from the array deck modifiying the deck method
-new_deck = Deck.new
-binding.pry
+duck = Deck.new
+hand = Hand.new(duck)
+puts "Hand: #{hand.deal_player_hand(duck)}"
+
+
+
 
 
 # puts "Welcome to SaZa! Blackjack!\n\n"
