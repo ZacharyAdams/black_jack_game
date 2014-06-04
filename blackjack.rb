@@ -59,17 +59,20 @@ class Blackjack
     puts
   end
 
+  def dealer_hit
+    dealer_hand.deal_card(deck.deck_array)
+  end
 end
 
 game = Blackjack.new
 game.welcome
 game.deck.shuffle_deck
 game.deal
-game.player_hand.display_hand
+game.player_hand.display_hand("player")
 
 user_input = game.prompt_for_move
 
-while user_input == 'h' && game.player_hand.score < 21
+while user_input == 'h' && game.player_hand.score <= 20 # FIXME user should be prevented from hitting if score == 21
   game.hit_loop
   if game.player_hand.score > 21
     puts "Player bust! You lose.\n\n"
@@ -79,12 +82,28 @@ while user_input == 'h' && game.player_hand.score < 21
   puts
 end
 
-# while score(dealer_hand.hand) < 17
-#   dealer_hand.deal_card(deck.deck_array)
-#   puts "Dealer was dealt #{dealer_hand.hand.last.rank}#{player_hand.hand.last.suit}"
-# end
-# puts "Dealer score: #{score(dealer_hand.hand)}"
-# puts
+while game.dealer_hand.score < 17
+  game.dealer_hit
+end
+
+game.dealer_hand.display_hand("dealer")
+puts
+
+if game.player_hand.score == game.dealer_hand.score
+  puts "Push!"
+elsif game.player_hand.score == 21
+  puts "Blackjack! You win!"
+elsif game.dealer_hand.score == 21
+  puts "Dealer blackjack! You lose."
+elsif game.dealer_hand.score > 21 && game.player_hand.score <= 21
+  puts "Dealer bust. You win!"
+ elsif game.dealer_hand.score < game.player_hand.score
+  puts "You win!"
+elsif game.dealer_hand.score > game.player_hand.score
+  puts "You lose!"
+ else
+  puts "****************THIS SHOULD NEVER PRINT*********************"
+end
 
 # if dealer_win_count == 0
 #   if score(dealer_hand.hand) > 21

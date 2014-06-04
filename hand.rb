@@ -30,9 +30,9 @@ class Hand
     score
   end
 
-  def display_hand
+  def display_hand(player_or_dealer) # Pass in "player" or "dealer" in main part of program
     hand.each do |card|
-      puts "Player was dealt #{card.rank}#{card.suit}"
+      puts "#{player_or_dealer.capitalize} was dealt #{card.rank}#{card.suit}"
     end
     puts "Score: #{self.score}"
   end
