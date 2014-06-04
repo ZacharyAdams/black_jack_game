@@ -10,4 +10,31 @@ class Hand
     @hand << deck.pop
   end
 
+  def score
+    score = 0
+    ace_counter = 0
+    hand.each do |card|
+      if card.face_card?
+        score += 10
+      elsif card.ace?
+        score += 11
+        ace_counter += 1
+      else
+        score += card.rank.to_i
+      end
+    end
+    while score > 21 && ace_counter > 0
+      score -= 10
+      ace_counter -= 1
+    end
+    score
+  end
+
+  def display_hand
+    hand.each do |card|
+      puts "Player was dealt #{card.rank}#{card.suit}"
+    end
+    puts "Score: #{self.score}"
+  end
+
 end
