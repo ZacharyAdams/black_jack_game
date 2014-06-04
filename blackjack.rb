@@ -26,15 +26,6 @@ def score(hand)
   score
 end
 
-
-
-
-
-
-
-
-
-
 def prompt_for_move
   puts "Hit or stand? (h/s)"
   puts
@@ -42,60 +33,80 @@ def prompt_for_move
   user_input
 end
 
-
 deck = Deck.new
 deck.shuffle_deck
 player_hand = Hand.new
 dealer_hand = Hand.new
-# while !deck.deck_array.empty?
-  player_win_count = 0
-  dealer_win_count = 0
 
-  2.times do
-    player_hand.deal_card(deck.deck_array)
-  end
+player_win_count = 0
+dealer_win_count = 0
 
-  puts "Welcome to SaZa! Blackjack!\n\n"
+2.times do
+  player_hand.deal_card(deck.deck_array)
+end
 
-  puts "Player was dealt #{player_hand.hand[0].rank}#{player_hand.hand[0].suit}"
-  puts "Player was dealt #{player_hand.hand[1].rank}#{player_hand.hand[1].suit}"
+puts "Welcome to SaZa! Blackjack!\n\n"
+puts "                    __
+           _..-''--'----_.
+         ,''.-''| .---/ _`-._
+       ,' \\ \\  ;| | ,/ / `-._`-.
+     ,' ,',\\ \\( | |// /,-._  / /
+     ;.`. `,\\ \\`| |/ / |   )/ /
+    / /`_`.\\_\\ \\| /_.-.'-''/ /
+   / /_|_:.`. \\ |;'`..')  / /
+   `-._`-._`.`.;`.\\  ,'  / /
+       `-._`.`/    ,'-._/ /
+         : `-/     \\`-.._/
+         |  :      ;._ (
+         :  |      \\  ` \
+
+          \\         \\   |
+           :        :   ;
+           |           /
+           ;         ,'
+          /         /
+         /         /
+                  /"
+puts "Player was dealt #{player_hand.hand[0].rank}#{player_hand.hand[0].suit}"
+puts "Player was dealt #{player_hand.hand[1].rank}#{player_hand.hand[1].suit}"
+puts "Player score: #{score(player_hand.hand)}"
+
+user_input = prompt_for_move
+
+while user_input == 'h' && score(player_hand.hand) < 21
+  player_hand.deal_card(deck.deck_array)
+  puts "Player was dealt #{player_hand.hand.last.rank}#{player_hand.hand.last.suit}"
   puts "Player score: #{score(player_hand.hand)}"
-
-  user_input = prompt_for_move
-
-  while user_input == 'h' && score(player_hand.hand) < 21
-    player_hand.deal_card(deck.deck_array)
-    puts "Player was dealt #{player_hand.hand.last.rank}#{player_hand.hand.last.suit}"
-    puts "Player score: #{score(player_hand.hand)}"
-    puts
-    if score(player_hand.hand) > 21
-      puts "Player bust! You lose.\n\n"
-      dealer_win_count += 1
-      break
-    end
-    user_input = prompt_for_move
-    puts
+  puts
+  if score(player_hand.hand) > 21
+    puts "Player bust! You lose.\n\n"
+    dealer_win_count += 1
+    exit 0
+    # break
   end
+  user_input = prompt_for_move
+  puts
+end
 
-    while score(dealer_hand.hand) < 17
-      dealer_hand.deal_card(deck.deck_array)
-      puts "Dealer was dealt #{dealer_hand.hand.last.rank}#{player_hand.hand.last.suit}"
-    end
-    puts "Dealer score: #{score(dealer_hand.hand)}"
-    puts
+while score(dealer_hand.hand) < 17
+  dealer_hand.deal_card(deck.deck_array)
+  puts "Dealer was dealt #{dealer_hand.hand.last.rank}#{player_hand.hand.last.suit}"
+end
+puts "Dealer score: #{score(dealer_hand.hand)}"
+puts
 
-    if dealer_win_count == 0
-      if score(dealer_hand.hand) > 21
-      puts "Dealer bust! You win."
-      puts
-      end
-    end
+if dealer_win_count == 0
+  if score(dealer_hand.hand) > 21
+  puts "Dealer bust! You win."
+  puts
+  exit 0
+  end
+end
 
-    if score(player_hand.hand) > score(dealer_hand.hand)
-      puts "You win!"
-    elsif score(player_hand.hand) < score(dealer_hand.hand)
-      puts "You lose."
-    else
-      puts "Push"
-    end
-# end
+if score(player_hand.hand) > score(dealer_hand.hand)
+  puts "You win!"
+elsif score(player_hand.hand) < score(dealer_hand.hand)
+  puts "You lose."
+else
+  puts "Push"
+end
