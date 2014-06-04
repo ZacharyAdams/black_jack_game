@@ -62,6 +62,25 @@ class Blackjack
   def dealer_hit
     dealer_hand.deal_card(deck.deck_array)
   end
+
+  def check_winner
+    if player_hand.score == dealer_hand.score
+      puts "Push!"
+    elsif player_hand.score == 21
+      puts "Blackjack! You win!"
+    elsif dealer_hand.score == 21
+      puts "Dealer blackjack! You lose."
+    elsif dealer_hand.score > 21 && player_hand.score <= 21
+      puts "Dealer bust. You win!"
+     elsif dealer_hand.score < player_hand.score
+      puts "You win!"
+    elsif dealer_hand.score > player_hand.score
+      puts "You lose!"
+    else
+      puts "****************THIS SHOULD NEVER PRINT*********************"
+    end
+  end
+
 end
 
 game = Blackjack.new
@@ -89,21 +108,8 @@ end
 game.dealer_hand.display_hand("dealer")
 puts
 
-if game.player_hand.score == game.dealer_hand.score
-  puts "Push!"
-elsif game.player_hand.score == 21
-  puts "Blackjack! You win!"
-elsif game.dealer_hand.score == 21
-  puts "Dealer blackjack! You lose."
-elsif game.dealer_hand.score > 21 && game.player_hand.score <= 21
-  puts "Dealer bust. You win!"
- elsif game.dealer_hand.score < game.player_hand.score
-  puts "You win!"
-elsif game.dealer_hand.score > game.player_hand.score
-  puts "You lose!"
- else
-  puts "****************THIS SHOULD NEVER PRINT*********************"
-end
+game.check_winner
+
 
 # if dealer_win_count == 0
 #   if score(dealer_hand.hand) > 21
